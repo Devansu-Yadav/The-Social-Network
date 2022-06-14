@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/public/assets/images/logo.png" height="100" width="100" alt="logo"/>
+  <img src="/public/assets/images/logo-med.png" height="100" width="100" alt="logo"/>
   <h1>The Social Network</h1>
     <p>The social network of the future is here, for everyone! Stay closer to your friends, family, and acquaintances like never before 🌐 Check out <a href="https://thesocialnetwork.vercel.app/">The Social Network</a> app! 🚀🙌</p>
 </div>
