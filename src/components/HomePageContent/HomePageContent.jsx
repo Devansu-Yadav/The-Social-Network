@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CreatePostCard, HomePagePosts } from "components";
 
 const HomePageContent = () => {

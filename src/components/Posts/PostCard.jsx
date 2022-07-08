@@ -18,7 +18,7 @@ const PostCard = ({ post }) => {
                             <div className="flex flex-col">
                                 <div className="flex flex-row text-gray-600 sm:gap-x-1 xs:gap-x-3 xxs:gap-x-1">
                                     <h2 className="block m-0 p-0 overflow-hidden xs:max-w-[130px] xxs:max-w-[90px] text-ellipsis hover:underline break-words whitespace-nowrap sm:text-base xs:text-sm xxs:text-sm font-bold">{post.displayName}</h2>
-                                    <h2 className="sm:block xs:hidden xxs:hidden m-0 p-0 overflow-hidden sm:max-w-[130px] text-ellipsis break-words whitespace-nowrap sm:text-base xs:text-sm xxs:text-sm">{post.userName}</h2>
+                                    <h2 className="sm:block xs:hidden xxs:hidden m-0 p-0 overflow-hidden sm:max-w-[160px] text-ellipsis break-words whitespace-nowrap sm:text-base xs:text-sm xxs:text-sm">{post.userName}</h2>
                                     <p className="sm:hidden xs:flex xxs:flex flex-row gap-x-1 m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-sm text-gray-700">
                                         <span className="inline break-words text-sm text-gray-600 font-bold">·</span>4h ago
                                     </p>   

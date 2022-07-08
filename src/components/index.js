@@ -12,3 +12,6 @@ export { PostCard } from "./Posts/PostCard";
 export { PostOptionsMenu } from "./Posts/PostOptionsMenu";
 export { NavBottomBar } from "./NavBottomBar/NavBottomBar";
 export { EditPostModal } from "./Modal/EditPostModal";
+export { ExplorePageContent } from "./ExplorePageContent/ExplorePageContent";
+export { ExplorePagePosts } from "./ExplorePagePosts/ExplorePagePosts";
+export { ExplorePostsBanner } from "./Banner/ExplorePostsBanner";
