@@ -1,2 +1,14 @@
 export { PrivateRoute } from "./Router/PrivateRoute";
 export { AppRoutes } from "./Router/Routes";
+export { NavBar } from "./NavBar/NavBar";
+export { SearchBar } from "./SearchBar/SearchBar";
+export { AvatarMenu } from "./AvatarMenu/AvatarMenu";
+export { NavSideBar } from "./SideBar/NavSideBar";
+export { RecommendationSideBar } from "./SideBar/RecommendationSideBar";
+export { HomePageContent } from "./HomePageContent/HomePageContent";
+export { CreatePostCard } from "./Posts/CreatePostCard";
+export { HomePagePosts } from "./HomePagePosts/HomePagePosts";
+export { PostCard } from "./Posts/PostCard";
+export { PostOptionsMenu } from "./Posts/PostOptionsMenu";
+export { NavBottomBar } from "./NavBottomBar/NavBottomBar";
+export { EditPostModal } from "./Modal/EditPostModal";

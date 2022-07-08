@@ -1,12 +1,13 @@
 import React from "react";
 import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from "./PrivateRoute";
+import { Home } from "pages";
 
 const AppRoutes = () => {
     return (
         <Routes>
             <Route element={<PrivateRoute />}>
-                {/* Add routes for Home, and other pages */}
+                <Route path="/" element={<Home />} />
             </Route>
             {/* Add routes for Login, Signup and 404 pages */}
         </Routes>
