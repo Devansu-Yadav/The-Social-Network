@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { NavBar, NavSideBar, RecommendationSideBar, ExplorePageContent, NavBottomBar } from "components";
 
 const Explore = () => {
-    // Updating title on rendering Home page comp
+    // Updating title on rendering Explore page comp
     useEffect(() => {
         document.title = "The Social Network - Explore";
     }, []);

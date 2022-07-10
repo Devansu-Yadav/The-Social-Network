@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from "./PrivateRoute";
-import { Home, Explore, Login, Signup, NotFoundPage } from "pages";
+import { Home, Explore, Login, Signup, NotFoundPage, Peers } from "pages";
 
 const AppRoutes = () => {
     return (
@@ -9,6 +9,7 @@ const AppRoutes = () => {
             <Route element={<PrivateRoute />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/explore" element={<Explore />} />
+                <Route path="/peers" element={<Peers />} />
             </Route>
             {/* Add routes for Login, Signup and 404 pages */}
             <Route path="/login" element={<Login />} />
