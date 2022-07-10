@@ -9,9 +9,9 @@ const HomePagePosts = () => {
             <Tab as={Fragment}>
               {({ selected }) => (
                 <button
-                  className={`w-full rounded-lg py-2.5 font-medium leading-5 text-primaryColor focus:outline-none ${
+                  className={`w-full rounded-lg py-2.5 font-medium leading-5 focus:outline-none ${
                     selected
-                      ? "bg-white shadow"
+                      ? "bg-white shadow text-primaryColor"
                       : "text-whiteColor hover:bg-gray-200/30 hover:text-whiteColor"
                   }`}
                 >
@@ -22,9 +22,9 @@ const HomePagePosts = () => {
             <Tab as={Fragment}>
               {({ selected }) => (
                 <button
-                  className={`w-full rounded-lg py-2.5 font-medium leading-5 text-primaryColor focus:outline-none    ${
+                  className={`w-full rounded-lg py-2.5 font-medium leading-5 focus:outline-none    ${
                     selected
-                      ? "bg-white shadow"
+                      ? "bg-white shadow text-primaryColor"
                       : "text-whiteColor hover:bg-gray-200/30 hover:text-whiteColor"
                   }`}
                 >
@@ -35,9 +35,9 @@ const HomePagePosts = () => {
             <Tab as={Fragment}>
               {({ selected }) => (
                 <button
-                  className={`w-full rounded-lg py-2.5 font-medium leading-5 text-primaryColor focus:outline-none    ${
+                  className={`w-full rounded-lg py-2.5 font-medium leading-5 focus:outline-none    ${
                     selected
-                      ? "bg-white shadow"
+                      ? "bg-white shadow text-primaryColor"
                       : "text-whiteColor hover:bg-gray-200/30 hover:text-whiteColor"
                   }`}
                 >
