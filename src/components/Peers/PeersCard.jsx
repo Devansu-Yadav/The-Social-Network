@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const PeersCard = ({ user, isFollowed }) => {
     return (
-        <div className="text-gray-600 sm:max-w-xs xxs:max-w-fit group flex w-full items-center rounded-2xl px-2 py-2 text-base shadow-[0_0px_10px_-1px_rgba(0,0,0,0.3)]">
+        <div className="text-gray-600 md:max-w-xs xxs:max-w-fit group flex w-full items-center rounded-2xl px-2 py-2 text-base shadow-[0_0px_10px_-1px_rgba(0,0,0,0.3)]">
             <div className="mr-2">
                 <img className="inline-block h-12 w-12 rounded-full" src={user.avatar} alt="User avatar" />
             </div>

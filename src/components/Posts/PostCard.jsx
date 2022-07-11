@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PostOptionsMenu } from "components";
 import { faComment, faHeart, faBookmark } from "@fortawesome/free-regular-svg-icons";
-import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
+import { faShareNodes, faBookmark as bookmarkIcon } from "@fortawesome/free-solid-svg-icons";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, isBookmarked }) => {
     return (
         <div className="mb-6 xs:p-4 xxs:p-3 rounded-2xl shadow-[0_0px_10px_-1px_rgba(0,0,0,0.3)]">
             <div className="flex flex-col gap-y-3">
@@ -55,7 +55,7 @@ const PostCard = ({ post }) => {
 
                     <div className="flex flex-row items-center">
                         <button className="ml-2 mr-2 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-blue-600">
-                            <FontAwesomeIcon icon={faBookmark} />
+                            { isBookmarked ? <FontAwesomeIcon className="text-primaryColor" icon={bookmarkIcon} /> : <FontAwesomeIcon icon={faBookmark} /> }
                         </button>
                     </div>
 
