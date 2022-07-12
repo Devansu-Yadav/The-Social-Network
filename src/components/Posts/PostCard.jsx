@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PostOptionsMenu } from "components";
 import { faComment, faHeart, faBookmark } from "@fortawesome/free-regular-svg-icons";
-import { faShareNodes, faBookmark as bookmarkIcon } from "@fortawesome/free-solid-svg-icons";
+import { faShareNodes, faBookmark as bookmarkIcon, faHeart as heartIcon } from "@fortawesome/free-solid-svg-icons";
 
-const PostCard = ({ post, isBookmarked }) => {
+const PostCard = ({ post, isBookmarked, isLikedPost }) => {
     return (
         <div className="mb-6 xs:p-4 xxs:p-3 rounded-2xl shadow-[0_0px_10px_-1px_rgba(0,0,0,0.3)]">
             <div className="flex flex-col gap-y-3">
@@ -48,7 +48,7 @@ const PostCard = ({ post, isBookmarked }) => {
 
                     <div className="flex flex-row items-center">
                         <button className="ml-0.5 mr-0.5 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-red-500">
-                            <FontAwesomeIcon icon={faHeart} />
+                            { isLikedPost ? <FontAwesomeIcon className="text-red-500" icon={heartIcon} /> : <FontAwesomeIcon icon={faHeart} /> }
                         </button>
                         <p className="text-gray-700">{post.likes.length}</p>
                     </div>

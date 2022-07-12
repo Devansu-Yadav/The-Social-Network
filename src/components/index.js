@@ -31,3 +31,7 @@ export { FollowRecommendations } from "./PeersPageContent/ExplorePeers";
 export { PeersPageContent } from "./PeersPageContent/PeersPageContent";
 export { BookmarksPagePosts } from "./BookmarksPageContent/BookmarksPagePosts";
 export { BookmarksPageContent } from "./BookmarksPageContent/BookmarksPageContent";
+export { UserProfileCard } from "./UserProfile/UserProfileCard";
+export { UserProfilePageContent } from "./UserProfilePageContent/UserProfilePageContent";
+export { UserProfilePagePosts } from "./UserProfilePageContent/UserProfilePagePosts";
+export { EditUserProfileModal } from "./Modal/EditUserProfileModal";

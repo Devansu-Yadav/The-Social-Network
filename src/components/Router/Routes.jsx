@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from "./PrivateRoute";
-import { Home, Explore, Login, Signup, NotFoundPage, Peers, Bookmarks } from "pages";
+import { Home, Explore, Login, Signup, NotFoundPage, Peers, Bookmarks, UserProfile } from "pages";
 
 const AppRoutes = () => {
     return (
@@ -11,6 +11,7 @@ const AppRoutes = () => {
                 <Route path="/explore" element={<Explore />} />
                 <Route path="/peers" element={<Peers />} />
                 <Route path="/bookmarks" element={<Bookmarks />} />
+                <Route path="/profile" element={<UserProfile />} />
             </Route>
             {/* Add routes for Login, Signup and 404 pages */}
             <Route path="/login" element={<Login />} />
