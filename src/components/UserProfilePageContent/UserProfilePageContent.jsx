@@ -3,7 +3,7 @@ import { UserProfileCard, UserProfilePagePosts } from "components";
 const UserProfilePageContent = () => {
     return (
         <main className="flex flex-col items-center justify-between md:p-4 xxs:p-0 xxs:pb-4">
-            <div className="flex flex-col gap-y-12 xs:w-10/12 xxs:w-full">
+            <div className="flex flex-col md:gap-y-12 xxs:gap-y-8 xs:w-10/12 xxs:w-full">
                 <UserProfileCard 
                     user={{
                         id: "",

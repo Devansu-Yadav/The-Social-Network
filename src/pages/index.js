@@ -6,3 +6,4 @@ export { NotFoundPage } from "./NotFoundPage";
 export { Peers } from "./Peers";
 export { Bookmarks } from "./Bookmarks";
 export { UserProfile } from "./UserProfile";
+export { SinglePost } from "./SinglePostPage";

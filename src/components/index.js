@@ -35,3 +35,8 @@ export { UserProfileCard } from "./UserProfile/UserProfileCard";
 export { UserProfilePageContent } from "./UserProfilePageContent/UserProfilePageContent";
 export { UserProfilePagePosts } from "./UserProfilePageContent/UserProfilePagePosts";
 export { EditUserProfileModal } from "./Modal/EditUserProfileModal";
+export { SinglePost } from "./SinglePostPageContent/SinglePost";
+export { SinglePostPageContent } from "./SinglePostPageContent/SinglePostPageContent";
+export { CreateCommentCard } from "./PostComment/CreateCommentCard";
+export { PostCommentCard } from "./PostComment/PostCommentCard";
+export { PostCommentOptionsMenu } from "./PostComment/PostCommentOptionsMenu";
