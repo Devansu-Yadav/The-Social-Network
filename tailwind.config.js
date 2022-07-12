@@ -1,32 +1,39 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
+    screens: {
+      'xs': '475px',
+      'xxs': '300px',
+      ...defaultTheme.screens,
+    },
     extend: {
       colors: {
-        primaryColor: {
+        'primaryColor': {
           light: "#CE80FF",
           DEFAULT: "#9D00FF",
           dark: "#5A0092"
         },
-        secondaryColor: {
+        'secondaryColor': {
           light: "#263C7F",
           DEFAULT: "#101935",
           dark: "#080D1B"
         },
-        tertiaryColor: {
+        'tertiaryColor': {
           light: "#B38CFF",
           DEFAULT: "#8A4FFF",
           dark: "#681DFF"
         },
-        accentColor: {
+        'accentColor': {
           light: "#FFF199",
           DEFAULT: "#FFE74C",
           dark: "#EDCD00"
         },
-        whiteColor: "#F2FDFF"
+        'whiteColor': "#F2FDFF"
       }
     },
     fontFamily: {
