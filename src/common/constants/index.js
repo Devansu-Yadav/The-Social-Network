@@ -1,0 +1,1 @@
+export { defaultUserData } from "./defaultUserData";
