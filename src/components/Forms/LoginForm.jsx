@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FormikControl, TextError } from "components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { loginUser } from "common/services";
 
 const LoginForm = () => {
     const initialValues = {
@@ -13,6 +15,8 @@ const LoginForm = () => {
     };
   
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [showPassword, setShowPassword] = useState();
   
     const validationScheme = Yup.object({
@@ -23,8 +27,9 @@ const LoginForm = () => {
     });
   
     const onSubmit = async (values) => {
-        //   const link = await loginUser(values, navigate, dispatch, login);
-        console.log("User logged in..");
+        dispatch(loginUser(values, dispatch))
+        .unwrap()
+        .then(() => navigate("/"));
     };
   
     return (
@@ -83,7 +88,7 @@ const LoginForm = () => {
                 type="button"
                 onClick={(e) => {
                   formik.setFieldValue("email", "john_doekar@gmail.com", false);
-                  formik.setFieldValue("password", "johnrao_doekar@1291", false);
+                  formik.setFieldValue("password", "Johnrao_doekar@1291", false);
                 }}
                 className="my-3 flex w-full items-center justify-center gap-3 rounded-lg border-2 border-primaryColor bg-white py-2 font-semibold text-primaryColor hover:bg-purple-100"
               >

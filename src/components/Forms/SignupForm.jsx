@@ -2,9 +2,11 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { FormikControl, TextError } from "components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { signupUser } from "common/services";
 
 const SignupForm = () => {
     const initialValues = {
@@ -13,10 +15,11 @@ const SignupForm = () => {
         lastName: "",
         password: "",
         confirmPassword: "",
-      };
+    };
     
     const [showPassword, setShowPassword] = useState();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const validationScheme = Yup.object({
         email: Yup.string()
@@ -37,9 +40,13 @@ const SignupForm = () => {
         lastName: Yup.string().required("LastName field can't be empty"),
     });
 
-    const onSubmit = async (values) => {
-        //   const link = await loginUser(values, navigate, dispatch, login);
-        console.log("User Signed up..");
+    const onSubmit = async (values, actions) => {
+        dispatch(signupUser(values, dispatch))
+        .unwrap()
+        .then(() => {
+            navigate("/login");
+            actions.resetForm();
+        });
     };
 
     return (
