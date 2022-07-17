@@ -6,6 +6,7 @@ const initialState = {
     authToken: localStorage.getItem("authToken") ?? "",
     authStatus: "idle",
     userData: {},
+    otherUserData: {},
     allUsers: [{
         id: "vmrU3VIKYZCbzjcEMWS4",
         firstName: "Johnrao",
@@ -26,6 +27,9 @@ const authSlice = createSlice({
     reducers: {
         storeUserCredentials: (state, action) => {
             state.userData = action.payload;
+        },
+        setOtherUser: (state, action) => {
+            state.otherUserData = action.payload;
         },
         logout: (state) => {
             state.authToken = "";
@@ -85,5 +89,5 @@ const authSlice = createSlice({
     }
 });
 
-export const { storeUserCredentials, logout } = authSlice.actions;
+export const { storeUserCredentials, logout, setOtherUser } = authSlice.actions;
 export default authSlice.reducer;

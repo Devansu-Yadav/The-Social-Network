@@ -1,8 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faCompass, faUsers, faBookmark, faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { logout } from "redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const NavSideBar = ({ active }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logoutHandler = () => {
+        dispatch(logout());
+        navigate("/login");
+    }
+
     return (
         <aside className="lg:w-1/12 md:w-2/12 md:block sm:hidden xs:hidden xxs:hidden h-screen p-2.5 sticky top-0 border-r border-slate-200">
             <div className="flex flex-col items-end justify-between h-full">
@@ -42,7 +52,8 @@ const NavSideBar = ({ active }) => {
                     </Link>
                 </div>
 
-                <button className="flex justify-center p-3 text-red-600 mb-5 rounded-full border-transparent hover:bg-gray-200">
+                <button className="flex justify-center p-3 text-red-600 mb-5 rounded-full border-transparent hover:bg-gray-200" 
+                onClick={() => logoutHandler()}>
                     <FontAwesomeIcon icon={faArrowRightFromBracket} className="lg:h-7 lg:w-7 md:h-7 md:w-7 inline-block leading-4 shrink-0" />
                 </button>
             </div>

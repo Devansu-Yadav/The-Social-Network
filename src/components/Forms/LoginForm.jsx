@@ -67,7 +67,9 @@ const LoginForm = () => {
                   name="password"
                   placeholder="Password"
                 />
+
                 <ErrorMessage name="password" component={TextError} />
+
                 <div className="absolute top-2 right-5">
                   {showPassword ? (
                     <FontAwesomeIcon icon={faEye} onClick={(e) => setShowPassword((prev) => !prev)} />

@@ -29,19 +29,18 @@ const createUser = async ({ uid, firstName, lastName, email }) => {
     }
 };
 
-const updateUser = async (id, updatedUserData, dispatch, navigate) => {
+const updateUser = async (id, updatedUserData, dispatch) => {
     try {
         const userDoc = doc(db, "users", id);
-        const updatedUser = await updateDoc(userDoc, { ...updatedUserData, updatedAt: serverTimestamp() });
+        await updateDoc(userDoc, { ...updatedUserData, updatedAt: serverTimestamp() });
         
         dispatch(getUserData(id));
         dispatch(getAllUsers());
         toast.success("Profile updated!");
-        navigate("/profile");
-        return updatedUser;
+        return updatedUserData;
     } catch(error) {
         console.log(error);
-        toast.error("Couldn't update user");
+        toast.error("Couldn't update user data");
     }
 };
 
@@ -55,7 +54,7 @@ const getUserData = createAsyncThunk("auth/getUserData", async (id) => {
             return { ...data, createdAt: getDateStringFromSeconds(data.createdAt.seconds), updatedAt: getDateStringFromSeconds(data.updatedAt.seconds) };
         }
     } catch(error) {
-        console.log(error.response.data);
+        console.log(error);
         toast.error("Could not fetch user data!");
     }
 });
@@ -65,7 +64,10 @@ const getAllUsers = createAsyncThunk("auth/getAllUsers", async () => {
 
     try {
         const usersSnapshot = await getDocs(usersCollectionRef);
-        const allUsersData = usersSnapshot.docs.map((doc) => doc.data());
+        const allUsersData = usersSnapshot.docs.map((doc) => {
+            const data = doc.data();
+            return { ...data, createdAt: getDateStringFromSeconds(data.createdAt.seconds), updatedAt: getDateStringFromSeconds(data.updatedAt.seconds) };
+        });
         return allUsersData;
     } catch(error) {
         console.log(error);
