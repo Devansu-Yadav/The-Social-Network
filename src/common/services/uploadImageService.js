@@ -8,6 +8,7 @@ const uploadImageFromForm = async (formData) => {
     const config = {
         method: "post",
         url: CDN_ENDPOINT,
+        headers: { 'content-type': 'multipart/form-data' },
         data: formData
     };
 
@@ -25,7 +26,8 @@ const uploadAvatar = async (formData) => {
     const config = {
         method: "post",
         url: CDN_ENDPOINT,
-        data: formData
+        headers: { 'content-type': 'multipart/form-data' },
+        data: formData,
     };
 
     try {
@@ -43,6 +45,7 @@ const uploadCoverImg = async (formData) => {
     const config = {
         method: "post",
         url: CDN_ENDPOINT,
+        headers: { 'content-type': 'multipart/form-data' },
         data: formData
     };
 

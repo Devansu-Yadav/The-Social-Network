@@ -10,6 +10,7 @@ import { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faImage, faCamera } from "@fortawesome/free-solid-svg-icons";
 import { defaultUserData, CDN_UPLOAD_PRESET, CDN_API_KEY } from "common/constants";
+import { getTimeStamp, getSignature } from "common/helpers";
 import { toast } from 'react-toastify';
 
 const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
@@ -17,6 +18,10 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
     const dispatch = useDispatch();
     const { authToken } = useSelector((state) => state.auth);
     const userAvatar = user.avatar || defaultUserData.avatar;
+
+    const timestamp = getTimeStamp();
+    const uploadSignatureForAvatar = getSignature(timestamp, authToken);
+    const uploadSignatureForCover = getSignature(timestamp, authToken + "-cover");
 
     const [userAvatarPreview, setUserAvatarPreview] = useState(userAvatar);
     
@@ -70,10 +75,13 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
             formData.append("upload_preset", CDN_UPLOAD_PRESET);
             formData.append("public_id", authToken);
             formData.append("api_key", CDN_API_KEY);
+            formData.append("timestamp", timestamp);
+            formData.append("signature", uploadSignatureForAvatar);
 
             const uploadedAvatarUrl = await uploadAvatar(formData);
 
             if(uploadedAvatarUrl) {
+                toast.success("Uploaded Avatar!");
                 setUserAvatarPreview(uploadedAvatarUrl);
             }
         }
@@ -86,6 +94,8 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
             formData.append("upload_preset", CDN_UPLOAD_PRESET);
             formData.append("public_id", authToken + "-cover");
             formData.append("api_key", CDN_API_KEY);
+            formData.append("timestamp", timestamp);
+            formData.append("signature", uploadSignatureForCover);
 
             const uploadedCoverImgUrl = await uploadCoverImg(formData);
 
