@@ -22,13 +22,13 @@ const PeersCard = ({ user, isFollowed }) => {
                             <div className="flex flex-col m-0 p-0 items-stretch shrink max-w-full">
                                 <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none hover:underline max-w-full cursor-pointer">
                                     <div className="flex flex-row shrink-0 m-0 p-0 items-center max-w-full">
-                                        <span className="flex m-0 p-0 items-center overflow-hidden break-words whitespace-nowrap text-base font-bold">{user.firstName + " " + user.lastName}</span>
+                                        <span className="flex m-0 p-0 items-center overflow-hidden break-words whitespace-nowrap text-base font-bold">{user?.firstName + " " + user?.lastName}</span>
                                     </div>
                                 </Link>
                             </div>
                             <div className="flex flex-row m-0 p-0 items-stretch shrink max-w-full">
                                 <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full cursor-pointer">
-                                    <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">{user.userName}</span>
+                                    <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">{user?.userName}</span>
                                 </Link>
                             </div>
                         </div>
