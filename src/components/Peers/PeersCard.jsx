@@ -8,7 +8,7 @@ const PeersCard = ({ user, isFollowed }) => {
 
     const { authToken } = useSelector((state) => state.auth);
     const currentLoggedInUserData = useSelector((state) => state.auth.userData);
-    const userAvatar = user.avatar || defaultUserData.avatar;
+    const userAvatar = user?.avatar || defaultUserData.avatar;
 
     return (
         <div className="text-gray-600 md:max-w-xs xxs:max-w-fit group flex w-full items-center rounded-2xl px-2 py-2 text-base shadow-[0_0px_10px_-1px_rgba(0,0,0,0.3)]">
