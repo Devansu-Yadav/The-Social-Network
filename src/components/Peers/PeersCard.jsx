@@ -1,10 +1,19 @@
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { unfollowUser, followUser } from "common/services";
+import { defaultUserData } from "common/constants";
 
 const PeersCard = ({ user, isFollowed }) => {
+    const dispatch = useDispatch();
+
+    const { authToken } = useSelector((state) => state.auth);
+    const currentLoggedInUserData = useSelector((state) => state.auth.userData);
+    const userAvatar = user.avatar || defaultUserData.avatar;
+
     return (
         <div className="text-gray-600 md:max-w-xs xxs:max-w-fit group flex w-full items-center rounded-2xl px-2 py-2 text-base shadow-[0_0px_10px_-1px_rgba(0,0,0,0.3)]">
             <div className="mr-2">
-                <img className="inline-block h-12 w-12 rounded-full" src={user.avatar} alt="User avatar" />
+                <img className="inline-block h-12 w-12 rounded-full" src={userAvatar} alt="User avatar" />
             </div>
             <div className="flex flex-col shrink-0 m-0 p-0 items-stretch justify-center basis-0 grow">
                 <div className="flex flex-row shrink-0 m-0 p-0 items-center justify-between basis-auto">
@@ -25,7 +34,11 @@ const PeersCard = ({ user, isFollowed }) => {
                         </div>
                     </div>
                     <div className="flex flex-col shrink-0 m-0 p-0 items-stretch ml-3 min-w-[77px]">
-                        <button className="outline-none rounded-full text-base border-solid pl-4 pr-4 min-w-[32px] min-h-[32px] transition duration-200 hover:bg-primaryColor-dark bg-primaryColor text-whiteColor">
+                        <button className="outline-none rounded-full text-base border-solid pl-4 pr-4 min-w-[32px] min-h-[32px] transition duration-200 hover:bg-primaryColor-dark bg-primaryColor text-whiteColor"
+                            onClick={() => {
+                                isFollowed ? unfollowUser(authToken, currentLoggedInUserData, user, user?.id, dispatch)
+                                : followUser(authToken, currentLoggedInUserData, user, user?.id, dispatch);
+                            }}>
                             { isFollowed ? "Unfollow": "Follow" }
                         </button>
                     </div>

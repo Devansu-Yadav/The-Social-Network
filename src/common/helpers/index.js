@@ -1,2 +1,2 @@
 export { getDateStringFromSeconds } from "./dateHelper";
-export { isFollowingUser } from "./userActionHelpers";
+export { isFollowingUser, getFollowingUsers, getFollowedUsers, getExplorePeers } from "./userActionHelpers";

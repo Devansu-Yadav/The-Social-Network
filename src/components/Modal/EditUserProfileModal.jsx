@@ -10,6 +10,7 @@ import { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faImage, faCamera } from "@fortawesome/free-solid-svg-icons";
 import { defaultUserData, CDN_UPLOAD_PRESET, CDN_API_KEY } from "common/constants";
+import { toast } from 'react-toastify';
 
 const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
     const navigate = useNavigate();
@@ -83,12 +84,13 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
             const formData = new FormData();
             formData.append("file", file);
             formData.append("upload_preset", CDN_UPLOAD_PRESET);
-            formData.append("public_id", authToken);
+            formData.append("public_id", authToken + "-cover");
             formData.append("api_key", CDN_API_KEY);
 
             const uploadedCoverImgUrl = await uploadCoverImg(formData);
 
             if(uploadedCoverImgUrl) {
+                toast.success("Uploaded Cover Image!");
                 setCoverImgPreview(uploadedCoverImgUrl);
             }
         }
@@ -173,6 +175,7 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
                                                                 id='upload-coverImg' 
                                                                 className='hidden'
                                                                 onChange={(e) => {
+                                                                    console.log(e.target.files);
                                                                     handleCover(e.target.files[0]);
                                                                 }} />
                                                         </div>
