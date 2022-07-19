@@ -13,7 +13,7 @@ const getFollowedUsers = (allUsers, currentLoggedInUserData) => {
 }
 
 const getExplorePeers = (allUsers, currentLoggedInUserData) => {
-    return currentLoggedInUserData?.following?.length ? currentLoggedInUserData?.following?.map(id => allUsers?.find(user => user?.id !== id))
+    return currentLoggedInUserData?.following?.length ? allUsers.filter(user => !currentLoggedInUserData?.following?.includes(user?.id) && user?.id !== currentLoggedInUserData?.id)
     : allUsers.filter(user => user?.id !== currentLoggedInUserData?.id);
 }
 
