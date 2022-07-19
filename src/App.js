@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getUserData, getAllUsers } from "common/services";
+import { getUserData, getAllUsers, getExplorePosts } from "common/services";
 
 function App() {
 	const dispatch = useDispatch();
@@ -15,6 +15,7 @@ function App() {
 		if(authToken) {
 			dispatch(getUserData(authToken));
 			dispatch(getAllUsers());
+			dispatch(getExplorePosts());
 		}
 	}, [authToken]);
 

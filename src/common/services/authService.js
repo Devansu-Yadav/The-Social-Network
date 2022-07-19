@@ -51,7 +51,7 @@ const getUserData = createAsyncThunk("auth/getUserData", async (id) => {
 
         if(userDataSnap.exists()) {
             const data = userDataSnap.data();
-            return { ...data, createdAt: getDateStringFromSeconds(data.createdAt.seconds), updatedAt: getDateStringFromSeconds(data.updatedAt.seconds) };
+            return { ...data, createdAt: getDateStringFromSeconds(data.createdAt), updatedAt: getDateStringFromSeconds(data.updatedAt) };
         }
     } catch(error) {
         console.log(error);
@@ -66,7 +66,7 @@ const getAllUsers = createAsyncThunk("auth/getAllUsers", async () => {
         const usersSnapshot = await getDocs(usersCollectionRef);
         const allUsersData = usersSnapshot.docs.map((doc) => {
             const data = doc.data();
-            return { ...data, createdAt: getDateStringFromSeconds(data.createdAt.seconds), updatedAt: getDateStringFromSeconds(data.updatedAt.seconds) };
+            return { ...data, createdAt: getDateStringFromSeconds(data.createdAt), updatedAt: getDateStringFromSeconds(data.updatedAt) };
         });
         return allUsersData;
     } catch(error) {

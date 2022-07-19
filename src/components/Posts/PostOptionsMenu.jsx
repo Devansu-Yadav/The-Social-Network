@@ -3,8 +3,13 @@ import { Fragment, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { EditPostModal } from "components";
+import { useDispatch } from "react-redux";
+import { 
+    deletePost,
+} from "common/services";
 
 const PostOptionsMenu = ({ post }) => {
+    const dispatch = useDispatch();
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const closeModal = () => {
@@ -48,6 +53,9 @@ const PostOptionsMenu = ({ post }) => {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
+                                        onClick={(e) => {
+                                            deletePost(post?.id, dispatch);
+                                        }}
                                         className={`${active ? 'bg-gray-200' : ''
                                             } text-red-600 group flex w-full items-center rounded-md px-2 py-2 text-base`}
                                     >

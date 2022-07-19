@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { db } from "firebase-config";
 import { setPost } from "redux/slices/postSlice";
 import { getUserData } from "common/services";
+import { getDateStringFromSeconds } from "common/helpers";
 
 const addPost = async (postData, dispatch) => {
     const postRef = collection(db, "posts");
@@ -58,14 +59,15 @@ const deletePost = async (id, dispatch) => {
 
 const getExplorePosts = createAsyncThunk("posts/getExplorePosts", async () => {
     const posts = [];
-    const postRef = doc(db, "posts");
+    const postRef = collection(db, "posts");
 
     try {
         const q = query(postRef, orderBy("createdAt", "desc"));
         const postSnap = await getDocs(q);
 
-        postSnap.forEach((doc) => {
-            posts?.push(doc.data());
+        postSnap.docs.forEach((doc) => {
+            const data = doc.data();
+            posts?.push({ ...data, createdAt: getDateStringFromSeconds(data.createdAt), updatedAt: getDateStringFromSeconds(data.updatedAt) });
         });
 
         return posts;

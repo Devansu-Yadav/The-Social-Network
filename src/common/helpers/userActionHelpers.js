@@ -17,4 +17,8 @@ const getExplorePeers = (allUsers, currentLoggedInUserData) => {
     : allUsers.filter(user => user?.id !== currentLoggedInUserData?.id);
 }
 
-export { isFollowingUser, getFollowingUsers, getFollowedUsers, getExplorePeers };
+const getPostDisplayName = (firstName, lastName) => {
+    return firstName + " " + lastName.charAt(0);
+}
+
+export { isFollowingUser, getFollowingUsers, getFollowedUsers, getExplorePeers, getPostDisplayName };

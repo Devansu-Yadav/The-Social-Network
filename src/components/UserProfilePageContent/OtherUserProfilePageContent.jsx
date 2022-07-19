@@ -10,7 +10,10 @@ const OtherUserProfilePage = () => {
     const dispatch = useDispatch();
     const { allUsers, otherUserData } = useSelector((state) => state.auth);
     const user = otherUserData;
-    
+
+    const { posts } = useSelector((state) => state.post);
+    const userProfilePagePosts = posts?.filter((post) => post?.userId === userId);
+
     useEffect(() => {
         const findUser = allUsers?.find((user) => user?.id === userId);
         dispatch(setOtherUser(findUser));
@@ -24,7 +27,7 @@ const OtherUserProfilePage = () => {
                     isUserNative={false}
                     userPosts={[{}]}
                 />
-                <UserProfilePagePosts />
+                <UserProfilePagePosts userPosts={userProfilePagePosts} />
             </div>
         </main>
     );
