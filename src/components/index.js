@@ -33,6 +33,7 @@ export { BookmarksPagePosts } from "./BookmarksPageContent/BookmarksPagePosts";
 export { BookmarksPageContent } from "./BookmarksPageContent/BookmarksPageContent";
 export { UserProfileCard } from "./UserProfile/UserProfileCard";
 export { UserProfilePageContent } from "./UserProfilePageContent/UserProfilePageContent";
+export { OtherUserProfilePage } from "./UserProfilePageContent/OtherUserProfilePageContent";
 export { UserProfilePagePosts } from "./UserProfilePageContent/UserProfilePagePosts";
 export { EditUserProfileModal } from "./Modal/EditUserProfileModal";
 export { SinglePost } from "./SinglePostPageContent/SinglePost";

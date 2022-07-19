@@ -2,9 +2,11 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { FormikControl, TextError } from "components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { signupUser } from "common/services";
 
 const SignupForm = () => {
     const initialValues = {
@@ -13,10 +15,11 @@ const SignupForm = () => {
         lastName: "",
         password: "",
         confirmPassword: "",
-      };
+    };
     
     const [showPassword, setShowPassword] = useState();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const validationScheme = Yup.object({
         email: Yup.string()
@@ -27,7 +30,7 @@ const SignupForm = () => {
           .min(8, "Password is too short, minimum 8 characters required")
           .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-            "Must have atleast one uppercase, one lowercase, One Number and one special character"
+            "Must have atleast an uppercase, a lowercase, a number & a special character"
           ),
     
         confirmPassword: Yup.string()
@@ -37,9 +40,13 @@ const SignupForm = () => {
         lastName: Yup.string().required("LastName field can't be empty"),
     });
 
-    const onSubmit = async (values) => {
-        //   const link = await loginUser(values, navigate, dispatch, login);
-        console.log("User Signed up..");
+    const onSubmit = async (values, actions) => {
+        dispatch(signupUser(values, dispatch))
+        .unwrap()
+        .then(() => {
+            navigate("/login");
+            actions.resetForm();
+        });
     };
 
     return (
@@ -50,7 +57,7 @@ const SignupForm = () => {
         >
             {(formik) => {
                 return (
-                    <Form className="bg-whiteColor mx-auto flex h-fit sm:w-fit xxs:w-4/5 flex-col items-center rounded-md px-5 pb-6">
+                    <Form className="bg-whiteColor mx-auto flex max-w-[500px] h-fit sm:w-fit xxs:w-4/5 flex-col items-center rounded-md px-5 pb-6">
                         <h1 className="my-3 mt-5 px-8 xs:!text-3xl xxs:text-xl sm:text-start xxs:text-center font-bold text-black-200">
                             Create Account
                         </h1>
@@ -87,7 +94,7 @@ const SignupForm = () => {
                             placeholder="Email"
                         />
 
-                        <div className="relative my-2 mb-3 flex h-14  w-full flex-col items-start justify-start">
+                        <div className="relative my-2 mb-3 flex h-fit w-full flex-col items-start justify-start">
                             <Field
                                 className="relative flex w-full rounded-lg border border-slate-300 bg-white px-2 py-2 placeholder-slate-400 shadow-sm focus:border-primaryColor focus:outline-none focus:ring-1 focus:ring-primaryColor
                                 focus:required:border-primaryColor focus:required:ring-primaryColor"
@@ -96,7 +103,9 @@ const SignupForm = () => {
                                 name="password"
                                 placeholder="Password"
                             />
+                            
                             <ErrorMessage name="password" component={TextError} />
+                            
                             <div className="absolute top-2 right-5">
                             {showPassword ? (
                                 <FontAwesomeIcon icon={faEye} onClick={(e) => setShowPassword((prev) => !prev)} />
@@ -106,7 +115,7 @@ const SignupForm = () => {
                             </div>
                         </div>
 
-                        <div className="relative my-2 mb-3 flex h-14  w-full flex-col items-start justify-start">
+                        <div className="relative my-2 mb-3 flex h-fit  w-full flex-col items-start justify-start">
                             <Field
                                 className="relative flex w-full rounded-lg border border-slate-300 bg-white px-2 py-2 placeholder-slate-400 shadow-sm focus:border-primaryColor focus:outline-none focus:ring-1 focus:ring-primaryColor
                                 focus:required:border-primaryColor focus:required:ring-primaryColor"
@@ -115,7 +124,9 @@ const SignupForm = () => {
                                 name="confirmPassword"
                                 placeholder="Confirm Password"
                             />
+                            
                             <ErrorMessage name="confirmPassword" component={TextError} />
+                            
                             <div className="absolute top-2 right-5">
                             { showPassword ? (
                                 <FontAwesomeIcon icon={faEye} onClick={(e) => setShowPassword((prev) => !prev)} />

@@ -5,7 +5,7 @@ import { TextError } from "components";
 const Input = (props) => {
   const { label, name, labelsOn, ...rest } = props;
   return (
-    <div className="relative my-2 mb-3 flex h-14  w-full flex-col items-start justify-start">
+    <div className="relative my-2 mb-3 flex h-fit w-full flex-col items-start justify-start">
       {labelsOn ? (
         <label htmlFor={name} className="text-md rounded-lg px-3">
           {label}
