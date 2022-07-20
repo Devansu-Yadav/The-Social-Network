@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from 'react'
+import { Fragment } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { getExplorePeers } from "common/helpers";
+import { defaultUserData } from "common/constants";
+import { followUser } from "common/services";
 
 const RecommendationSideBar = () => {
+    const dispatch = useDispatch();
+    const { userData, authToken, allUsers } = useSelector((state) => state.auth);
+    const recommendedPeers = getExplorePeers(allUsers, userData).slice(0, 5);
+
     return (
         <aside className="lg:block sm:hidden xs:hidden xxs:hidden h-screen p-2.5 sticky top-0 border-l border-slate-200">
             <div className="w-full text-right mt-20">
@@ -29,191 +37,51 @@ const RecommendationSideBar = () => {
                             </div>
                             
                             <div className="px-1 py-1">
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <div
-                                            className={`${active ? 'bg-primaryColor text-white' : 'text-gray-600'
-                                                } group flex w-full items-center rounded-md px-2 py-2 text-base`}>
-                                            
-                                            <div className="mr-2">
-                                                <img className="inline-block h-12 w-12 rounded-full" src="https://devansuyadav.live/assets/Devansu_Yadav.jpg" alt="User avatar" />
-                                            </div>
-                                            <div className="flex flex-col shrink-0 m-0 p-0 items-stretch justify-center basis-0 grow">
-                                                <div className="flex flex-row shrink-0 m-0 p-0 items-center justify-between basis-auto">
-                                                    <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                        <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                            <div className="flex flex-col m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none hover:underline max-w-full cursor-pointer">
-                                                                    <div className="flex flex-row shrink-0 m-0 p-0 items-center max-w-full">
-                                                                        <span className="flex m-0 p-0 items-center overflow-hidden break-words whitespace-nowrap text-base font-bold">Johnrao D</span>
+                                { recommendedPeers?.map((peer) => {
+                                    return (
+                                        <Menu.Item key={peer?.id}>
+                                            {({ active }) => (
+                                                <div
+                                                    className={`${active ? 'bg-primaryColor text-white' : 'text-gray-600'
+                                                        } group flex w-full items-center rounded-md px-2 py-2 text-base`}>
+                                                    
+                                                    <div className="mr-2">
+                                                        <img className="inline-block h-12 w-12 rounded-full" src={ peer?.avatar || defaultUserData.avatar } alt="User avatar" />
+                                                    </div>
+                                                    <div className="flex flex-col shrink-0 m-0 p-0 items-stretch justify-center basis-0 grow">
+                                                        <div className="flex flex-row shrink-0 m-0 p-0 items-center justify-between basis-auto">
+                                                            <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
+                                                                <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
+                                                                    <div className="flex flex-col m-0 p-0 items-stretch shrink max-w-full">
+                                                                        <Link to={`/profile/${peer?.id}`} className="flex flex-col m-0 p-0 items-stretch shrink outline-none hover:underline max-w-full cursor-pointer">
+                                                                            <div className="flex flex-row shrink-0 m-0 p-0 items-center max-w-full">
+                                                                                <span className="flex m-0 p-0 items-center overflow-hidden break-words whitespace-nowrap text-base font-bold">{peer?.firstName + " " + peer?.lastName.charAt(0)}</span>
+                                                                            </div>
+                                                                        </Link>
                                                                     </div>
-                                                                </Link>
+                                                                    <div className="flex flex-row m-0 p-0 items-stretch shrink max-w-full">
+                                                                        <Link to={`/profile/${peer?.id}`} className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full cursor-pointer">
+                                                                            <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">@{peer?.userName}</span>
+                                                                        </Link>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex flex-row m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full cursor-pointer">
-                                                                    <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">@johnrao.doekar</span>
-                                                                </Link>
+                                                            <div className="flex flex-col shrink-0 m-0 p-0 items-stretch ml-3 min-w-[77px]">
+                                                                <button 
+                                                                    onClick={() => {
+                                                                        followUser(authToken, userData, peer, peer?.id, dispatch)
+                                                                    }}
+                                                                    className={`outline-none rounded-full text-base border-solid pl-4 pr-4 min-w-[32px] min-h-[32px] transition duration-200 ${ active ? "bg-whiteColor text-primaryColor": "bg-primaryColor text-whiteColor"}`}>
+                                                                    Follow
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="flex flex-col shrink-0 m-0 p-0 items-stretch ml-3 min-w-[77px]">
-                                                        <button className={`outline-none rounded-full text-base border-solid pl-4 pr-4 min-w-[32px] min-h-[32px] transition duration-200 ${ active ? "bg-whiteColor text-primaryColor": "bg-primaryColor text-whiteColor"}`}>
-                                                            Follow
-                                                        </button>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <div
-                                            className={`${active ? 'bg-primaryColor text-white' : 'text-gray-600'
-                                                } group flex w-full items-center rounded-md px-2 py-2 text-base`}>
-                                            
-                                            <div className="mr-2">
-                                                <img className="inline-block h-12 w-12 rounded-full" src="https://devansuyadav.live/assets/Devansu_Yadav.jpg" alt="User avatar" />
-                                            </div>
-                                            <div className="flex flex-col shrink-0 m-0 p-0 items-stretch justify-center basis-0 grow">
-                                                <div className="flex flex-row shrink-0 m-0 p-0 items-center justify-between basis-auto">
-                                                    <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                        <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                            <div className="flex flex-col m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none hover:underline max-w-full cursor-pointer">
-                                                                    <div className="flex flex-row shrink-0 m-0 p-0 items-center max-w-full">
-                                                                        <span className="flex m-0 p-0 items-center overflow-hidden break-words whitespace-nowrap text-base font-bold">Johnrao D</span>
-                                                                    </div>
-                                                                </Link>
-                                                            </div>
-                                                            <div className="flex flex-row m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full cursor-pointer">
-                                                                    <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">@johnrao.doekar</span>
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex flex-col shrink-0 m-0 p-0 items-stretch ml-3 min-w-[77px]">
-                                                        <button className={`outline-none rounded-full text-base border-solid pl-4 pr-4 min-w-[32px] min-h-[32px] transition duration-200 ${ active ? "bg-whiteColor text-primaryColor": "bg-primaryColor text-whiteColor"}`}>
-                                                            Follow
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <div
-                                            className={`${active ? 'bg-primaryColor text-white' : 'text-gray-600'
-                                                } group flex w-full items-center rounded-md px-2 py-2 text-base`}>
-                                            
-                                            <div className="mr-2">
-                                                <img className="inline-block h-12 w-12 rounded-full" src="https://devansuyadav.live/assets/Devansu_Yadav.jpg" alt="User avatar" />
-                                            </div>
-                                            <div className="flex flex-col shrink-0 m-0 p-0 items-stretch justify-center basis-0 grow">
-                                                <div className="flex flex-row shrink-0 m-0 p-0 items-center justify-between basis-auto">
-                                                    <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                        <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                            <div className="flex flex-col m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none hover:underline max-w-full cursor-pointer">
-                                                                    <div className="flex flex-row shrink-0 m-0 p-0 items-center max-w-full">
-                                                                        <span className="flex m-0 p-0 items-center overflow-hidden break-words whitespace-nowrap text-base font-bold">Johnrao D</span>
-                                                                    </div>
-                                                                </Link>
-                                                            </div>
-                                                            <div className="flex flex-row m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full cursor-pointer">
-                                                                    <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">@johnrao.doekar</span>
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex flex-col shrink-0 m-0 p-0 items-stretch ml-3 min-w-[77px]">
-                                                        <button className={`outline-none rounded-full text-base border-solid pl-4 pr-4 min-w-[32px] min-h-[32px] transition duration-200 ${ active ? "bg-whiteColor text-primaryColor": "bg-primaryColor text-whiteColor"}`}>
-                                                            Follow
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <div
-                                            className={`${active ? 'bg-primaryColor text-white' : 'text-gray-600'
-                                                } group flex w-full items-center rounded-md px-2 py-2 text-base`}>
-                                            
-                                            <div className="mr-2">
-                                                <img className="inline-block h-12 w-12 rounded-full" src="https://devansuyadav.live/assets/Devansu_Yadav.jpg" alt="User avatar" />
-                                            </div>
-                                            <div className="flex flex-col shrink-0 m-0 p-0 items-stretch justify-center basis-0 grow">
-                                                <div className="flex flex-row shrink-0 m-0 p-0 items-center justify-between basis-auto">
-                                                    <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                        <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                            <div className="flex flex-col m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none hover:underline max-w-full cursor-pointer">
-                                                                    <div className="flex flex-row shrink-0 m-0 p-0 items-center max-w-full">
-                                                                        <span className="flex m-0 p-0 items-center overflow-hidden break-words whitespace-nowrap text-base font-bold">Johnrao D</span>
-                                                                    </div>
-                                                                </Link>
-                                                            </div>
-                                                            <div className="flex flex-row m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full cursor-pointer">
-                                                                    <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">@johnrao.doekar</span>
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex flex-col shrink-0 m-0 p-0 items-stretch ml-3 min-w-[77px]">
-                                                        <button className={`outline-none rounded-full text-base border-solid pl-4 pr-4 min-w-[32px] min-h-[32px] transition duration-200 ${ active ? "bg-whiteColor text-primaryColor": "bg-primaryColor text-whiteColor"}`}>
-                                                            Follow
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </Menu.Item>
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <div
-                                            className={`${active ? 'bg-primaryColor text-white' : 'text-gray-600'
-                                                } group flex w-full items-center rounded-md px-2 py-2 text-base`}>
-                                            
-                                            <div className="mr-2">
-                                                <img className="inline-block h-12 w-12 rounded-full" src="https://devansuyadav.live/assets/Devansu_Yadav.jpg" alt="User avatar" />
-                                            </div>
-                                            <div className="flex flex-col shrink-0 m-0 p-0 items-stretch justify-center basis-0 grow">
-                                                <div className="flex flex-row shrink-0 m-0 p-0 items-center justify-between basis-auto">
-                                                    <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                        <div className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full">
-                                                            <div className="flex flex-col m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none hover:underline max-w-full cursor-pointer">
-                                                                    <div className="flex flex-row shrink-0 m-0 p-0 items-center max-w-full">
-                                                                        <span className="flex m-0 p-0 items-center overflow-hidden break-words whitespace-nowrap text-base font-bold">Johnrao D</span>
-                                                                    </div>
-                                                                </Link>
-                                                            </div>
-                                                            <div className="flex flex-row m-0 p-0 items-stretch shrink max-w-full">
-                                                                <Link to="/" className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full cursor-pointer">
-                                                                    <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">@johnrao.doekar</span>
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex flex-col shrink-0 m-0 p-0 items-stretch ml-3 min-w-[77px]">
-                                                        <button className={`outline-none rounded-full text-base border-solid pl-4 pr-4 min-w-[32px] min-h-[32px] transition duration-200 ${ active ? "bg-whiteColor text-primaryColor": "bg-primaryColor text-whiteColor"}`}>
-                                                            Follow
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </Menu.Item>
+                                            )}
+                                        </Menu.Item>
+                                    );
+                                })}
                             </div>
 
                             <div className="px-1 py-1">

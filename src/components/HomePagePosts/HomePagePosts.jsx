@@ -10,6 +10,11 @@ const HomePagePosts = () => {
 	const homePagePosts = posts?.filter((post) => 
 		userData?.following?.includes(post?.userId) || post?.userId === authToken);
 
+	// Sorting posts by most no of likes
+	const trendingPosts = [...posts].sort((a, b) => b.likes?.length - a.likes?.length);
+
+	const oldestPosts = [...posts].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
 	return (
 		<Tab.Group>
 			<Tab.List className="flex space-x-1 rounded-t-lg bg-primaryColor px-4 py-2">
@@ -70,7 +75,7 @@ const HomePagePosts = () => {
 					className="rounded-xl bg-white p-3 pb-10 ring-white ring-opacity-60 ring-offset-2 ring-offset-tertiaryColor focus:outline-none focus:ring-2"
 				>
 					<div>
-						{ homePagePosts?.map((post) => {
+						{ trendingPosts?.map((post) => {
 							return (
 								<PostCard
 									key={post?.id} 
@@ -84,7 +89,7 @@ const HomePagePosts = () => {
 					className="rounded-xl bg-white p-3 pb-10 ring-white ring-opacity-60 ring-offset-2 ring-offset-tertiaryColor focus:outline-none focus:ring-2"
 				>
 					<div>
-						{ homePagePosts?.map((post) => {
+						{ oldestPosts?.map((post) => {
 							return (
 								<PostCard
 									key={post?.id} 
