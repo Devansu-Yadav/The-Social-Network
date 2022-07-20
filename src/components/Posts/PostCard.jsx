@@ -17,10 +17,26 @@ import {
 import { setPost } from "redux/slices/postSlice";
 import { defaultUserData } from "common/constants";
 import { getPostTime } from "common/helpers";
+import { toast } from "react-toastify";
 
-const PostCard = ({ post, isBookmarked, isLikedPost, className }) => {
+const PostCard = ({ post, className }) => {
+    const dispatch = useDispatch();
     const postTime = getPostTime(post?.createdAt);
-    const { authToken } = useSelector((state) => state.auth);
+    const { userData, authToken } = useSelector((state) => state.auth);
+
+    const isLiked = post?.likes?.find((user) => user?.id === authToken);
+    const isBookmarked = userData?.bookmarks?.find((bookmarkedPost) => bookmarkedPost?.id === post?.id);
+
+    const shareButtonClickHandler = async (event) => {
+        event.preventDefault();
+
+        try {
+            await navigator.clipboard.writeText(window.location.href + "post/" + post?.id);
+            toast.info("Copied Post URL to clipboard!");
+        } catch(err) {
+            toast.error("Could not copy Post URL to clipboard!");
+        }
+    };
 
     return (
         <div className={`mb-4 xs:p-4 xxs:p-3 rounded-2xl shadow-[0_0px_10px_-1px_rgba(0,0,0,0.3)] ${className}`}>
@@ -57,7 +73,7 @@ const PostCard = ({ post, isBookmarked, isLikedPost, className }) => {
                     </div>}
                 </div>
                 <div className="flex flex-row items-center sm:justify-between xs:justify-evenly xxs:justify-evenly">
-                    <Link to="/post/1234" className="flex flex-row items-center">
+                    <Link to={`/post/${post?.id}`} className="flex flex-row items-center">
                         <button className="ml-1 mr-0.5 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-primaryColor">
                             <FontAwesomeIcon icon={faComment} />
                         </button>
@@ -65,20 +81,30 @@ const PostCard = ({ post, isBookmarked, isLikedPost, className }) => {
                     </Link>
 
                     <div className="flex flex-row items-center">
-                        <button className="ml-0.5 mr-0.5 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-red-500">
-                            { isLikedPost ? <FontAwesomeIcon className="text-red-500" icon={heartIcon} /> : <FontAwesomeIcon icon={faHeart} /> }
+                        <button 
+                            className="ml-0.5 mr-0.5 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-red-500"
+                            onClick={(e) => {
+                                isLiked ? dislikePost(post?.id, authToken, userData, dispatch)
+                                        : likePost(post?.id, authToken, userData, dispatch);
+                            }}>
+                            { isLiked ? <FontAwesomeIcon className="text-red-500" icon={heartIcon} /> : <FontAwesomeIcon icon={faHeart} /> }
                         </button>
                         <p className="text-gray-700">{post?.likes?.length}</p>
                     </div>
 
                     <div className="flex flex-row items-center">
-                        <button className="ml-2 mr-2 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-blue-600">
+                        <button 
+                            className="ml-2 mr-2 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-blue-600"
+                            onClick={(e) => {
+                                isBookmarked ? removePostFromBookmarks(authToken, post, dispatch)
+                                             : bookmarkPost(authToken, post, dispatch);
+                            }}>
                             { isBookmarked ? <FontAwesomeIcon className="text-primaryColor" icon={bookmarkIcon} /> : <FontAwesomeIcon icon={faBookmark} /> }
                         </button>
                     </div>
 
                     <div className="flex flex-row items-center">
-                        <button className="ml-2 mr-2 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-tertiaryColor">
+                        <button onClick={(e) => shareButtonClickHandler(e)} className="ml-2 mr-2 flex h-8 w-8 items-center justify-center rounded-full border-transparent hover:bg-gray-200 hover:text-tertiaryColor">
                             <FontAwesomeIcon icon={faShareNodes} />
                         </button>
                     </div>

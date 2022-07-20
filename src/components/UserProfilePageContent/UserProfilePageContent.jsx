@@ -9,6 +9,7 @@ const UserProfilePageContent = () => {
 	const { authToken } = useSelector((state) => state.auth);
 
 	const userProfilePagePosts = posts?.filter((post) => post?.userId === authToken);
+    const userLikedPosts = posts?.filter((post) => post?.likes?.find((user) => user?.id === authToken));
 
     return (
         <main className="flex flex-col items-center justify-between md:p-4 xxs:p-0 xxs:pb-4">
@@ -18,7 +19,7 @@ const UserProfilePageContent = () => {
                     isUserNative={true}
                     userPosts={[{}]}
                 />
-                <UserProfilePagePosts userPosts={userProfilePagePosts} />
+                <UserProfilePagePosts userPosts={userProfilePagePosts} userLikedPosts={userLikedPosts} />
             </div>
         </main>
     );
