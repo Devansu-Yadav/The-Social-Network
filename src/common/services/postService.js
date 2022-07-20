@@ -115,6 +115,7 @@ const postComment = async (postId, comment, dispatch) => {
         await updateDoc(postRef, {
             comments: arrayUnion(comment),
         });
+        toast.success("Posted your comment!");
         dispatch(getExplorePosts());
     } catch(error) {
         console.log(error);

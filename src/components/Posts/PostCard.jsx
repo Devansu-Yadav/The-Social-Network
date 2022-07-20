@@ -6,12 +6,8 @@ import { faShareNodes, faBookmark as bookmarkIcon, faHeart as heartIcon } from "
 import { useDispatch, useSelector } from "react-redux";
 import { 
     bookmarkPost,
-    deleteComment,
-    deletePost,
     dislikePost,
-    getExplorePosts,
     likePost,
-    postComment,
     removePostFromBookmarks
 } from "common/services";
 import { setPost } from "redux/slices/postSlice";

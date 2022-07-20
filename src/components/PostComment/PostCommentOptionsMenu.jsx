@@ -2,8 +2,14 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { 
+    deleteComment,
+} from "common/services";
 
-const PostCommentOptionsMenu = () => {
+const PostCommentOptionsMenu = ({ post, comment }) => {
+    const dispatch = useDispatch();
+
     return (
         <div className="text-right">
             <Menu as="div" className="relative inline-block text-left">
@@ -26,6 +32,9 @@ const PostCommentOptionsMenu = () => {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
+                                        onClick={(e) => {
+                                            deleteComment(post?.id, comment, dispatch);
+                                        }}
                                         className={`${active ? 'bg-gray-200' : ''
                                             } text-red-600 group flex w-full items-center rounded-md px-2 py-2 text-base`}
                                     >

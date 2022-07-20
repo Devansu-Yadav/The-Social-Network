@@ -17,19 +17,13 @@ const SinglePost = ({ post }) => {
                 </div>
                 
                 <div className="flex flex-col items-center">
-                    <PostCard post={post} className="rounded-none shadow-none" />
+                    <PostCard post={post} className="w-full rounded-none shadow-none" />
                     <CreateCommentCard post={post} />
-                    <PostCommentCard post={{
-                        id: "", 
-                        userName: "@devansh.yadav007", 
-                        displayName: "Devansu. Y", 
-                        imageUrl: "",
-                        avatar: "https://devansuyadav.live/assets/Devansu_Yadav.jpg",
-                        content: "Hi, I'm Devansu Yadav, creator of The Social Network. The social network of the future is here, for everyone! Stay closer to your friends, family, and acquaintances like never before on The Social Network app 🙌🌐",
-                        comments: [],
-                        likes: [],
-                        createdAt: new Date("7th July, 2022")
-                    }} />
+                    { post?.comments?.map((comment) => {
+                        return (
+                            <PostCommentCard key={comment?.id} post={post} comment={comment} />
+                        );
+                    })}
                 </div>
             </div>
         </div>
