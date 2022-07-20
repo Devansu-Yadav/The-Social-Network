@@ -15,7 +15,8 @@ const uploadImageFromForm = async (formData) => {
     try {
         const res = await axios(config);
         const uploadedImgUrl = res.data.secure_url;
-        return uploadedImgUrl;
+        const public_id = res.data.public_id;
+        return { uploadedImgUrl, public_id };
     } catch(error) {
         console.log(error);
         toast.error("Couldn't upload image");
