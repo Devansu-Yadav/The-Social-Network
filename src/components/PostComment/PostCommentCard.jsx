@@ -4,8 +4,11 @@ import { PostCommentOptionsMenu } from "components";
 import { faComment, faHeart, faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { faShareNodes, faBookmark as bookmarkIcon, faHeart as heartIcon } from "@fortawesome/free-solid-svg-icons";
 import { defaultUserData } from "common/constants";
+import { useSelector } from "react-redux";
 
 const PostCommentCard = ({ post, comment }) => {
+    const { authToken } = useSelector((state) => state.auth);
+
     return (
         <div className="w-full flex flex-row justify-center mb-4 xs:px-0 xxs:px-0 xs:py-4 xxs:py-3 rounded-none shadow-none border-t border-solid border-gray-200">
             <div className="flex flex-col w-[95%] gap-y-3">
@@ -25,7 +28,7 @@ const PostCommentCard = ({ post, comment }) => {
                             </div>
                         </div>
                     </Link>
-                    <PostCommentOptionsMenu post={post} comment={comment} />
+                    { comment?.userId === authToken && <PostCommentOptionsMenu post={post} comment={comment} /> }
                 </div>
                 <div>
                     <p className="text-base text-gray-500 sm:pl-5 sm:pr-5 xs:pl-3 xs:pr-3 xxs:pl-3 xxs:pr-3">
