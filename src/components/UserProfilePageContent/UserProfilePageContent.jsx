@@ -17,7 +17,7 @@ const UserProfilePageContent = () => {
                 <UserProfileCard 
                     user={userData}
                     isUserNative={true}
-                    userPosts={[{}]}
+                    userPosts={userProfilePagePosts}
                 />
                 <UserProfilePagePosts userPosts={userProfilePagePosts} userLikedPosts={userLikedPosts} />
             </div>
