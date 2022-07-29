@@ -22,9 +22,33 @@ const CreatePostCard = () => {
 
     const dispatch = useDispatch();
     const { userData, authToken } = useSelector((state) => state.auth);
+    const [selectedFile, setSelectedFile] = useState();
     const [imagePath, setImagePath] = useState("");
     const [imgPublicId, setImgPublicId] = useState("");
     const [formData, setFormData] = useState(initialValues);
+
+    const uploadPostMedia = async (file) => {
+        if(file) {
+            const timestamp = getTimeStamp();
+            const uploadSignatureForImage = getSignature(timestamp);
+
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", CDN_UPLOAD_PRESET);
+            formData.append("api_key", CDN_API_KEY);
+            formData.append("timestamp", timestamp);
+            formData.append("signature", uploadSignatureForImage);
+            
+            const { uploadedImgUrl, public_id } = await uploadImageFromForm(formData);
+
+            if(uploadedImgUrl) {
+                toast.success("Uploaded image!");
+                // setImagePath(uploadedImgUrl);
+                // setImgPublicId(public_id);
+                return { uploadedImgUrl, public_id };
+            }
+        }
+    };
 
     const handleTextChange = (e) => {
         e.preventDefault();
@@ -43,6 +67,9 @@ const CreatePostCard = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const { uploadedImgUrl, public_id } = await uploadPostMedia(selectedFile);
+
         setFormData({
             ...formData,
             userName: userData?.userName,
@@ -50,7 +77,7 @@ const CreatePostCard = () => {
         });
 
         if(formData.content) {
-            await addPost(formData, dispatch);
+            await addPost({ ...formData, imageUrl: uploadedImgUrl, imagePublicId: public_id }, dispatch);
         }
 
         setFormData(initialValues);
@@ -61,25 +88,21 @@ const CreatePostCard = () => {
 
     const handleImage = async (file) => {
         if(file) {
-            const timestamp = getTimeStamp();
-            const uploadSignatureForImage = getSignature(timestamp);
-
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", CDN_UPLOAD_PRESET);
-            formData.append("api_key", CDN_API_KEY);
-            formData.append("timestamp", timestamp);
-            formData.append("signature", uploadSignatureForImage);
-            
-            const { uploadedImgUrl, public_id } = await uploadImageFromForm(formData);
-
-            if(uploadedImgUrl) {
-                toast.success("Uploaded image!");
-                setImagePath(uploadedImgUrl);
-                setImgPublicId(public_id);
-            }
+            setSelectedFile(file);
         }
     };
+
+    useEffect(() => {
+        if (!selectedFile) {
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(selectedFile);
+        setImagePath(objectUrl);
+
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [selectedFile]);
+
 
     useEffect(() => {
         setFormData((form) => ({
@@ -88,6 +111,7 @@ const CreatePostCard = () => {
             imagePublicId: imgPublicId,
         }));
     }, [imagePath, imgPublicId]);
+
 
     const emojiClickHandler = (e) => {
         e.preventDefault();
@@ -121,9 +145,9 @@ const CreatePostCard = () => {
                         <div className="flex items-center justify-center group rounded-full border-2 border-gray-100 bg-white p-4 hover:border-2 hover:border-tertiaryColor hover:outline-2">
                             <label htmlFor="upload-picture" className="flex items-center justify-center text-gray-600">
                                 <input type="file" id="upload-picture" accept="image/*" hidden 
-                                onChange={(e) => {
-                                    handleImage(e.target.files[0]);
-                                }} />
+                                    onChange={(e) => {
+                                        handleImage(e.target.files[0]);
+                                    }} />
                                 <FontAwesomeIcon className="group-hover:font-bold group-hover:text-tertiaryColor" id="" icon={faImage} />
                             </label>
                         </div>

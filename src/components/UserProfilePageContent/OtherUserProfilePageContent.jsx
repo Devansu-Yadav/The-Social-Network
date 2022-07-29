@@ -26,7 +26,7 @@ const OtherUserProfilePage = () => {
                 <UserProfileCard 
                     user={user}
                     isUserNative={false}
-                    userPosts={[{}]}
+                    userPosts={userProfilePagePosts}
                 />
                 <UserProfilePagePosts userPosts={userProfilePagePosts} userLikedPosts={userLikedPosts} />
             </div>

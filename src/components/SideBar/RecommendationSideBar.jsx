@@ -60,8 +60,8 @@ const RecommendationSideBar = () => {
                                                                         </Link>
                                                                     </div>
                                                                     <div className="flex flex-row m-0 p-0 items-stretch shrink max-w-full">
-                                                                        <Link to={`/profile/${peer?.id}`} className="flex flex-col m-0 p-0 items-stretch shrink outline-none max-w-full cursor-pointer">
-                                                                            <span className="flex flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-base max-w-full">@{peer?.userName}</span>
+                                                                        <Link to={`/profile/${peer?.id}`} className="flex flex-col m-0 p-0 items-stretch shrink outline-none cursor-pointer">
+                                                                            <h2 className="block m-0 p-0 overflow-hidden break-words text-ellipsis whitespace-nowrap text-base sm:max-w-[150px]">@{peer?.userName}</h2>
                                                                         </Link>
                                                                     </div>
                                                                 </div>

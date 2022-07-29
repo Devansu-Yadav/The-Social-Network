@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import { faXmark, faImage, faCamera } from "@fortawesome/free-solid-svg-icons";
 import { defaultUserData, CDN_UPLOAD_PRESET, CDN_API_KEY } from "common/constants";
 import { getTimeStamp, getSignature } from "common/helpers";
 import { toast } from 'react-toastify';
+
 
 const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
         coverImg: user?.coverImg || defaultUserData.coverImg,
     };
 
+    const [selectedAvatarFile, setSelectedAvatarFile] = useState();
     const [userCoverImgPreview, setCoverImgPreview] = useState(initialValues.coverImg);
 
     const validationScheme = Yup.object({
@@ -49,26 +51,7 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
           "Invalid Url!"),
     });
 
-    const onSubmit = async (values) => {
-        const { userName, firstName, lastName, bio, website } = values;
-        const updatedUserData = {
-            userName,
-            firstName,
-            lastName,
-            bio,
-            website,
-            avatar: userAvatarPreview,
-            coverImg: userCoverImgPreview
-        };
-
-        const userData = await updateUser(authToken, updatedUserData, dispatch);
-        console.log("Updated user data", userData);
-        if(userData) {
-            closeModal();
-        }
-    };
-
-    const handleAvatar = async (file) => {
+    const uploadEditUserFormAvatar = async (file) => {
         if(file) {
             const formData = new FormData();
             formData.append("file", file);
@@ -82,8 +65,36 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
 
             if(uploadedAvatarUrl) {
                 toast.success("Uploaded Avatar!");
-                setUserAvatarPreview(uploadedAvatarUrl);
+                return uploadedAvatarUrl;
             }
+        }
+    };
+
+    const onSubmit = async (values) => {
+        const { userName, firstName, lastName, bio, website } = values;
+
+        const uploadedAvatarUrl = await uploadEditUserFormAvatar(selectedAvatarFile);
+
+        const updatedUserData = {
+            userName,
+            firstName,
+            lastName,
+            bio,
+            website,
+            avatar: uploadedAvatarUrl,
+            coverImg: userCoverImgPreview
+        };
+
+        const userData = await updateUser(authToken, updatedUserData, dispatch);
+        console.log("Updated user data", userData);
+        if(userData) {
+            closeModal();
+        }
+    };
+
+    const handleAvatar = async (file) => {
+        if(file) {
+            setSelectedAvatarFile(file);
         }
     };
 
@@ -105,6 +116,17 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
             }
         }
     };
+
+    useEffect(() => {
+        if(!selectedAvatarFile) {
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(selectedAvatarFile);
+        setUserAvatarPreview(objectUrl);
+
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [selectedAvatarFile]);
 
     return (
         <>
@@ -185,7 +207,6 @@ const EditUserProfileModal = ({ isOpenModal, closeModal, user }) => {
                                                                 id='upload-coverImg' 
                                                                 className='hidden'
                                                                 onChange={(e) => {
-                                                                    console.log(e.target.files);
                                                                     handleCover(e.target.files[0]);
                                                                 }} />
                                                         </div>

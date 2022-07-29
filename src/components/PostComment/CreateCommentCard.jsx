@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postComment, getExplorePosts } from "common/services";
 import { getPostDisplayName } from "common/helpers";
 import { v4 as uuid } from "uuid";
+import { serverTimestamp } from "firebase/firestore";
 
 const CreateCommentCard = ({ post }) => {
     const initialValues = {
@@ -40,7 +41,7 @@ const CreateCommentCard = ({ post }) => {
         setFormData({
             ...formData,
             userName: userData?.userName,
-            avatar: userData?.avatar || defaultUserData.avatar
+            avatar: userData?.avatar || defaultUserData.avatar,
         });
 
         if(formData.content) {
