@@ -10,7 +10,6 @@ import {
     likePost,
     removePostFromBookmarks
 } from "common/services";
-import { setPost } from "redux/slices/postSlice";
 import { defaultUserData } from "common/constants";
 import { getPostTime } from "common/helpers";
 import { toast } from "react-toastify";
@@ -21,7 +20,7 @@ const PostCard = ({ post, className }) => {
     const { userData, authToken } = useSelector((state) => state.auth);
 
     const isLiked = post?.likes?.find((user) => user?.id === authToken);
-    const isBookmarked = userData?.bookmarks?.find((bookmarkedPost) => bookmarkedPost?.id === post?.id);
+    const isBookmarked = userData?.bookmarks?.some((bookmarkedPost) => bookmarkedPost?.id === post?.id);
 
     const shareButtonClickHandler = async (event) => {
         event.preventDefault();
@@ -47,13 +46,13 @@ const PostCard = ({ post, className }) => {
                             <div className="flex flex-col">
                                 <div className="flex flex-row text-gray-600 sm:gap-x-1 xs:gap-x-3 xxs:gap-x-1">
                                     <h2 className="block m-0 p-0 overflow-hidden xs:max-w-[130px] xxs:max-w-[90px] text-ellipsis hover:underline break-words whitespace-nowrap sm:text-base xs:text-sm xxs:text-sm font-bold">{post?.displayName}</h2>
-                                    <h2 className="sm:block xs:hidden xxs:hidden m-0 p-0 overflow-hidden sm:max-w-[160px] text-ellipsis break-words whitespace-nowrap sm:text-base xs:text-sm xxs:text-sm">{post?.userName}</h2>
+                                    <h2 className="sm:block xs:hidden xxs:hidden m-0 p-0 overflow-hidden sm:max-w-[160px] text-ellipsis break-words whitespace-nowrap sm:text-base xs:text-sm xxs:text-sm">@{post?.userName}</h2>
                                     <p className="sm:hidden xs:flex xxs:flex flex-row gap-x-1 m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-sm text-gray-700">
                                         <span className="inline break-words text-sm text-gray-600 font-bold">·</span>
                                         { postTime } ago
                                     </p>   
                                 </div>
-                                <h2 className="sm:hidden xs:block xxs:block m-0 p-0 overflow-hidden max-w-[140px] text-ellipsis break-words whitespace-nowrap sm:text-base xs:text-sm xxs:text-sm">{post?.userName}</h2>
+                                <h2 className="sm:hidden xs:block xxs:block m-0 p-0 overflow-hidden max-w-[140px] text-ellipsis break-words whitespace-nowrap sm:text-base xs:text-sm xxs:text-sm">@{post?.userName}</h2>
                                 <p className="sm:flex xs:hidden xxs:hidden flex-row m-0 p-0 items-center overflow-hidden break-words text-ellipsis whitespace-nowrap text-sm text-gray-700">{ postTime } ago</p>
                             </div>
                         </div>

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { PostCard, CreateCommentCard, PostCommentCard } from "components";
+import { getDateStringFromSeconds } from "common/helpers";
 
 const SinglePost = ({ post }) => {
     return (

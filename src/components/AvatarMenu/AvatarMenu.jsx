@@ -1,13 +1,21 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { defaultUserData } from "common/constants";
+import { logout } from "redux/slices/authSlice";
 
 const AvatarMenu = () => {
     const { userData } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logoutHandler = () => {
+        dispatch(logout());
+        navigate("/login");
+    };
 
     return (
         <div className="text-right">
@@ -46,6 +54,7 @@ const AvatarMenu = () => {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
+                                        onClick={() => logoutHandler()}
                                         className={`${active ? 'bg-primaryColor text-white' : 'text-gray-600'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-base`}
                                     >
